@@ -21,7 +21,7 @@ export function hostname ({commit, dispatch}) {
   })
 }
 
-export function get_last_readers () {
+export function get_last_readers ({commit, dispatch}) {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get(['historyReaders'], function(items) {
       let result = items.historyReaders
