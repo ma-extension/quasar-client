@@ -34,11 +34,27 @@
             class="manga"
           >
             <q-list>
-              <q-item v-for="(cap, c_index) in manga.history"
+              <q-item clickable v-for="(cap, c_index) in manga.history"
                 :key="c_index"
                 class="manga__cap"
               >
+              <q-item-section left>
                 Cap: {{ cap.cap }}
+              </q-item-section>
+              <q-item-section main></q-item-section>
+              <q-item-section right
+                class="flex"
+                style="align-items: center"
+              >
+                <q-btn
+                  round
+                  flat
+                >
+                  <q-avatar size="24px">
+                    <img style="filter: invert(.8)" src="../assets/baseline-delete-24px.svg">
+                  </q-avatar>
+                </q-btn>
+              </q-item-section>
               </q-item>
             </q-list>
           </q-expansion-item>
@@ -90,11 +106,14 @@ export default {
   /* font-size: 16px; */
 }
 .manga__cap {
-  /* font-size: 14px; */
+  font-size: 12px;
+  /* color: white; */
+  /* filter: invert(100); */
   transition: .5s ease;
 }
 .manga__cap:hover {
-  color: white;
-  background: #3db9cc;
+  /* filter: invert(0); */
+  /* background: #3db9cc; */
+  /* background: wheat; */
 }
 </style>
