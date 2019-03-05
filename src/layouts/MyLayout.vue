@@ -1,15 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-red-10">
-      <q-toolbar>
-
-        <q-toolbar-title>
-          Manga Agenda Extension
-        </q-toolbar-title>
-
-      </q-toolbar>
-    </q-header>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -22,6 +12,7 @@
           rounded
           no-caps
           label="Github"
+          @click="tabview"
         />
       </q-toolbar>
     </q-footer>
@@ -35,6 +26,8 @@ export default {
   name: 'MyLayout',
   data () {
     return {
+      title: 'Manga Agenda Extension',
+      tabview: '',
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
