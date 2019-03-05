@@ -1,6 +1,6 @@
 <template>
   <div
-    class="full-width full-height"
+    class="list-reader"
   >
     <q-tab-panels
       v-model="panel"
@@ -9,9 +9,10 @@
     >
       <q-tab-panel
         name="readers"
+        style="padding: 0px;"
       >
-        <q-list bordered class="rounded-borders full-width">
-          <q-item clickable v-for="(reader, index) in items" :key="index" @click="preparePanelMangas(reader.mangas)">
+        <q-list>
+          <q-item clickable v-for="(reader, index) in items" :key="index" @click="preparePanelMangas(reader)">
         
             <q-item-section avatar>
               <q-avatar>
@@ -24,15 +25,18 @@
       </q-tab-panel>
       <q-tab-panel
         name="mangas"
+        style="padding: 0px;"
       >
         <q-list>
           <q-expansion-item v-for="(manga, m_index) in mangas"
             :key="m_index"
             :label="manga.name"
+            class="manga"
           >
             <q-list>
               <q-item v-for="(cap, c_index) in manga.history"
                 :key="c_index"
+                class="manga__cap"
               >
                 Cap: {{ cap.cap }}
               </q-item>
@@ -48,20 +52,21 @@
 export default {
   // name: 'ComponentName',
   props: [
-    'historyBy'
+    'historyBy',
+    'tabview'
   ],
   data () {
     return {
-      panel: 'readers',
       items: [],
       mangas: [],
       current_hostname: null
     }
   },
   methods: {
-    preparePanelMangas(mangas) {
-      this.mangas = mangas
-      this.panel = 'mangas'
+    preparePanelMangas(reader) {
+      this.mangas = reader.mangas
+      this.panelName = 'mangas'
+      this.$emit('clickReader', {title: reader.reader, parentPanel: 'readers', panel: 'mangas'})
     }
   },
   mounted () {
@@ -72,10 +77,24 @@ export default {
   computed: {
     readers () {
       return this.items
+    },
+    panel () {
+      return this.tabview
     }
   }
 }
 </script>
 
 <style>
+.manga {
+  /* font-size: 16px; */
+}
+.manga__cap {
+  /* font-size: 14px; */
+  transition: .5s ease;
+}
+.manga__cap:hover {
+  color: white;
+  background: #3db9cc;
+}
 </style>
