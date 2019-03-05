@@ -27,7 +27,14 @@
         name="mangas"
         style="padding: 0px;"
       >
-      <h1>a</h1>
+        <div class="q-gutter-sm">
+          <q-radio v-model="sort_chapters" :val="false" label="First time read" />
+          <q-radio v-model="sort_chapters" :val="true" label="Decrescent" />
+        </div>
+        <div class="q-px-sm">
+          Order chapters by: <strong>{{ sortChapterLabel() }}</strong>
+        </div>
+
         <q-list>
           <q-expansion-item v-for="(manga, m_index) in mangas"
             :key="m_index"
@@ -78,25 +85,13 @@ export default {
       items: [],
       mangas: [],
       current_hostname: null,
-      sort_chapters: true,
+      sort_chapters: false,
       current_chapters: []
     }
   },
   methods: {
-    sortChapters(chapters) {
-      var aux = chapters;
-      if (this.sort_chapters) {
-        return aux.sort((a, b) => {
-          if (a.cap > b.cap) {
-            return 1
-          }
-          if (a.cap < b.cap) {
-            return -1
-          }
-          return 0
-        })
-      }
-      return aux
+    sortChapterLabel () {
+      return this.sort_chapters ? 'Decrescent' : 'First time read'
     },
     preparePanelMangas(reader) {
       this.mangas = reader.mangas
@@ -112,12 +107,12 @@ export default {
   computed: {
     chapters () {
       if (this.sort_chapters) {
-        return this.current_chapters.sort((a, b) => {
+        return [...this.current_chapters].sort((a, b) => {
           if (a.cap > b.cap) {
-            return 1
+            return -1
           }
           if (a.cap < b.cap) {
-            return -1
+            return 1
           }
           return 0
         })
