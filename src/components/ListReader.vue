@@ -27,14 +27,16 @@
         name="mangas"
         style="padding: 0px;"
       >
+      <h1>a</h1>
         <q-list>
           <q-expansion-item v-for="(manga, m_index) in mangas"
             :key="m_index"
             :label="manga.name"
             class="manga"
+            @click.native="current_chapters = manga.history"
           >
             <q-list>
-              <q-item clickable v-for="(cap, c_index) in manga.history"
+              <q-item clickable v-for="(cap, c_index) in chapters"
                 :key="c_index"
                 class="manga__cap"
               >
@@ -75,10 +77,27 @@ export default {
     return {
       items: [],
       mangas: [],
-      current_hostname: null
+      current_hostname: null,
+      sort_chapters: true,
+      current_chapters: []
     }
   },
   methods: {
+    sortChapters(chapters) {
+      var aux = chapters;
+      if (this.sort_chapters) {
+        return aux.sort((a, b) => {
+          if (a.cap > b.cap) {
+            return 1
+          }
+          if (a.cap < b.cap) {
+            return -1
+          }
+          return 0
+        })
+      }
+      return aux
+    },
     preparePanelMangas(reader) {
       this.mangas = reader.mangas
       this.panelName = 'mangas'
@@ -91,6 +110,20 @@ export default {
     })
   },
   computed: {
+    chapters () {
+      if (this.sort_chapters) {
+        return this.current_chapters.sort((a, b) => {
+          if (a.cap > b.cap) {
+            return 1
+          }
+          if (a.cap < b.cap) {
+            return -1
+          }
+          return 0
+        })
+      }
+      return this.current_chapters
+    },
     readers () {
       return this.items
     },
