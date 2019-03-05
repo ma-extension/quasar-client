@@ -27,12 +27,14 @@
         name="mangas"
         style="padding: 0px;"
       >
-        <div class="q-gutter-sm">
-          <q-radio v-model="sort_chapters" :val="false" label="First time read" />
-          <q-radio v-model="sort_chapters" :val="true" label="Decrescent" />
-        </div>
-        <div class="q-px-sm">
-          Order chapters by: <strong>{{ sortChapterLabel() }}</strong>
+        <div class="bg-grey-1">
+          <div class="q-gutter-sm">
+            <q-radio v-model="sort_chapters" :val="false" label="First time read" />
+            <q-radio v-model="sort_chapters" :val="true" label="Decrescent" />
+          </div>
+          <div class="q-px-sm">
+            Order chapters by: <strong>{{ sortChapterLabel() }}</strong>
+          </div>
         </div>
 
         <q-list>
@@ -132,9 +134,13 @@ export default {
 <style>
 .manga {
   /* font-size: 16px; */
+  font-weight: bold;
+  text-transform: uppercase;
 }
 .manga__cap {
+  text-transform: capitalize;
   font-size: 12px;
+  font-weight: normal;
   /* color: white; */
   /* filter: invert(100); */
   transition: .5s ease;
