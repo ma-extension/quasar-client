@@ -23,22 +23,21 @@ export function hostname ({commit, dispatch}) {
   })
 }
 
-// export function get_last_readers ({commit, dispatch}) {
-//   // the original function, uncomment it when build
-//   return new Promise((resolve, reject) => {
-//     chrome.storage.sync.get(['historyReaders'], function(items) {
-//       let result = items.historyReaders
-//       if (!result) {
-//         result = []
-//       }
-//       resolve(result)
-//     })
-//   })
-// }
-
 export function get_last_readers ({commit, dispatch}) {
   // the original function, uncomment it when build
   return new Promise((resolve, reject) => {
-      resolve(dev_history_example)
+    chrome.storage.sync.get(['historyReaders'], function(items) {
+      let result = items.historyReaders
+      if (!result) {
+        result = []
+      }
+      resolve(result)
     })
+  })
 }
+
+// export function get_last_readers ({commit, dispatch}) {
+//   return new Promise((resolve, reject) => {
+//       resolve(dev_history_example)
+//     })
+// }
