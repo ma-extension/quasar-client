@@ -3,9 +3,11 @@
     class="list-reader"
   >
     <q-tab-panels
+      id="mae_panels"
       v-model="panel"
       animated
       class="full-width full-height"
+      @transition="(newPanel, oldPanel) => this.$emit('transition', {new_panel: newPanel, old_panel: oldPanel})"
     >
       <q-tab-panel
         name="readers"
@@ -94,6 +96,7 @@ export default {
   ],
   data () {
     return {
+      panel: 'readers',
       items: [],
       mangas: [],
       current_hostname: null,
@@ -107,12 +110,12 @@ export default {
     },
     preparePanelMangas(reader) {
       this.mangas = reader.mangas
-      this.panelName = 'mangas'
+      this.panel = 'mangas'
       this.$emit('clickReader', {title: reader.reader, parentPanel: 'readers', panel: 'mangas'})
     },
     preparePanelChapters (manga) {
       this.current_chapters = manga.history
-      this.panelName = 'chapters'
+      this.panel = 'chapters'
       this.$emit('clickReader', {title: manga.name, parentPanel: 'mangas', panel: 'chapters'})
     }
 
@@ -140,9 +143,14 @@ export default {
     readers () {
       return this.items
     },
-    panel () {
-      return this.tabview
-    }
+    // panel: {
+    //   set (value) {
+    //     return
+    //   },
+    //   get () {
+    //     return this.tabview
+    //   }
+    // }
   }
 }
 </script>
