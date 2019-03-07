@@ -38,37 +38,47 @@
         </div>
 
         <q-list>
-          <q-expansion-item v-for="(manga, m_index) in mangas"
+          <q-item clickable
+            v-for="(manga, m_index) in mangas"
             :key="m_index"
-            :label="manga.name"
-            class="manga"
-            @click.native="current_chapters = manga.history"
+            @click="preparePanelChapters(manga)"
           >
-            <q-list>
-              <q-item clickable v-for="(cap, c_index) in chapters"
-                :key="c_index"
-                class="manga__cap"
-              >
-              <q-item-section left>
-                Cap: {{ cap.cap }}
-              </q-item-section>
-              <q-item-section main></q-item-section>
-              <q-item-section right
-                class="flex"
-                style="align-items: center"
-              >
-                <q-btn
-                  round
-                  flat
-                >
-                  <q-avatar size="24px">
-                    <img style="filter: invert(.8)" src="../assets/baseline-delete-24px.svg">
-                  </q-avatar>
-                </q-btn>
-              </q-item-section>
-              </q-item>
-            </q-list>
-          </q-expansion-item>
+            <q-item-section avatar>
+              <q-icon 
+                name="bookmarks"
+              />
+            </q-item-section>
+            <q-item-section>{{ manga.name }}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-tab-panel>
+      <q-tab-panel
+        name="chapters"
+        style="padding: 0px;"
+      >
+        <q-list>
+          <q-item clickable v-for="(cap, c_index) in chapters"
+            :key="c_index"
+            class="manga__cap"
+          >
+          <q-item-section left>
+            Cap: {{ cap.cap }}
+          </q-item-section>
+          <q-item-section main></q-item-section>
+          <q-item-section right
+            class="flex"
+            style="align-items: center"
+          >
+            <q-btn
+              round
+              flat
+            >
+              <q-avatar size="24px">
+                <img style="filter: invert(.8)" src="../assets/baseline-delete-24px.svg">
+              </q-avatar>
+            </q-btn>
+          </q-item-section>
+          </q-item>
         </q-list>
       </q-tab-panel>
     </q-tab-panels>
@@ -99,7 +109,13 @@ export default {
       this.mangas = reader.mangas
       this.panelName = 'mangas'
       this.$emit('clickReader', {title: reader.reader, parentPanel: 'readers', panel: 'mangas'})
+    },
+    preparePanelChapters (manga) {
+      this.current_chapters = manga.history
+      this.panelName = 'chapters'
+      this.$emit('clickReader', {title: manga.name, parentPanel: 'mangas', panel: 'chapters'})
     }
+
   },
   mounted () {
     this.$store.dispatch('reader/get_last_readers').then(resp => {
@@ -119,7 +135,7 @@ export default {
           return 0
         })
       }
-      return this.current_chapters
+      return [...this.current_chapters]
     },
     readers () {
       return this.items
