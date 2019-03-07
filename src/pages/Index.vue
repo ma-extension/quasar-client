@@ -15,7 +15,10 @@
 
       </q-toolbar>
     </q-header>
-    <ListReader :tabview="panel" @clickReader="(e) => clickReader(e)" />
+    <ListReader
+      @clickReader="(e) => clickReader(e)"
+      @transition="updatePanels"
+      />
   </q-page>
 </template>
 
@@ -37,7 +40,8 @@ export default {
       maintitle: 'Manga Agenda Extension',
       parentPanel: '',
       panel: 'readers',
-      parent: {}
+      parent: {},
+      mae_panels: null
     }
   },
   computed: {
@@ -48,14 +52,24 @@ export default {
       return this.parent.title
     }
   },
+  mounted () {
+    this.mae_panels = document.querySelector('#mae_panels')
+  },
   methods: {
+    updatePanels (value) {
+      this.panel = value.new_panel
+      this.parentPanel = value.old_panel
+    },
     clickReader (element) {
-      this.parentPanel = element.parentPanel
+      // this.parentPanel = element.parentPanel
       this.panel = element.panel
       this.parent = element
     },
     backPanel () {
-      this.panel = this.parentPanel
+      this.mae_panels = document.querySelector('#mae_panels')
+      // this.panel = this.parentPanel
+      // console.dir(this.mae_panels)
+      this.mae_panels.__vue__.previous()
     },
     isHomePanel () {
       return (this.panel === 'readers') ? true : false
