@@ -97,9 +97,9 @@ export default {
       panel: 'readers',
       items: [],
       mangas: [],
+      sort_chapters: false,
       current_reader: null,
       current_manga: null,
-      sort_chapters: false,
       current_chapters: []
     }
   },
@@ -114,13 +114,11 @@ export default {
       this.mangas = reader.mangas
       this.panel = 'mangas'
       this.current_reader = reader
-      this.$emit('clickReader', {title: reader.reader, parentPanel: 'readers', panel: 'mangas'})
     },
     preparePanelChapters (manga) {
       this.current_chapters = manga.history
       this.panel = 'chapters'
       this.current_manga = manga
-      this.$emit('clickReader', {title: manga.name, parentPanel: 'mangas', panel: 'chapters'})
     },
     currentTitle () {
       let title = ''
