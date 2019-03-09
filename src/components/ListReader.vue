@@ -61,6 +61,8 @@
           <q-item clickable v-for="(cap, c_index) in chapters"
             :key="c_index"
             class="manga__cap"
+            target="_blank"
+            :href="cap.url"
           >
           <q-item-section left>
             Cap: {{ cap.cap }}
