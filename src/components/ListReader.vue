@@ -7,7 +7,7 @@
       v-model="panel"
       animated
       class="full-width full-height"
-      @transition="(newPanel, oldPanel) => this.$emit('transition', {new_panel: newPanel, old_panel: oldPanel})"
+      @before-transition="emitPanelChange"
     >
       <q-tab-panel
         name="readers"
@@ -29,16 +29,6 @@
         name="mangas"
         style="padding: 0px;"
       >
-        <div class="bg-grey-1">
-          <div class="q-gutter-sm">
-            <q-radio v-model="sort_chapters" :val="false" label="First time read" />
-            <q-radio v-model="sort_chapters" :val="true" label="Decrescent" />
-          </div>
-          <div class="q-px-sm">
-            Order chapters by: <strong>{{ sortChapterLabel() }}</strong>
-          </div>
-        </div>
-
         <q-list>
           <q-item clickable
             v-for="(manga, m_index) in mangas"
@@ -58,6 +48,15 @@
         name="chapters"
         style="padding: 0px;"
       >
+        <div class="bg-grey-1">
+          <div class="q-gutter-sm">
+            <q-radio v-model="sort_chapters" :val="false" label="First time read" />
+            <q-radio v-model="sort_chapters" :val="true" label="Decrescent" />
+          </div>
+          <div class="q-px-sm">
+            Order chapters by: <strong>{{ sortChapterLabel() }}</strong>
+          </div>
+        </div>
         <q-list>
           <q-item clickable v-for="(cap, c_index) in chapters"
             :key="c_index"
@@ -91,32 +90,47 @@
 export default {
   // name: 'ComponentName',
   props: [
-    'historyBy',
-    'tabview'
+    'historyBy'
   ],
   data () {
     return {
       panel: 'readers',
       items: [],
       mangas: [],
-      current_hostname: null,
+      current_reader: null,
+      current_manga: null,
       sort_chapters: false,
       current_chapters: []
     }
   },
   methods: {
+    emitPanelChange (title) {
+      this.$emit('panelChange', {title: this.currentTitle()})
+    },
     sortChapterLabel () {
       return this.sort_chapters ? 'Decrescent' : 'First time read'
     },
     preparePanelMangas(reader) {
       this.mangas = reader.mangas
       this.panel = 'mangas'
+      this.current_reader = reader
       this.$emit('clickReader', {title: reader.reader, parentPanel: 'readers', panel: 'mangas'})
     },
     preparePanelChapters (manga) {
       this.current_chapters = manga.history
       this.panel = 'chapters'
+      this.current_manga = manga
       this.$emit('clickReader', {title: manga.name, parentPanel: 'mangas', panel: 'chapters'})
+    },
+    currentTitle () {
+      let title = ''
+      if (this.panel === 'mangas') {
+        title = this.current_reader.reader
+      }
+      if (this.panel === 'chapters') {
+        title = this.current_manga.name
+      }
+      return title
     }
 
   },
@@ -142,15 +156,7 @@ export default {
     },
     readers () {
       return this.items
-    },
-    // panel: {
-    //   set (value) {
-    //     return
-    //   },
-    //   get () {
-    //     return this.tabview
-    //   }
-    // }
+    }
   }
 }
 </script>
