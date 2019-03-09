@@ -11,9 +11,14 @@
           flat
           rounded
           no-caps
+          push
           label="Github"
-          @click="tabview"
-        />
+          type="a"
+          href="https://github.com/ma-extension/quasar-client"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+        </q-btn>
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -26,8 +31,6 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      title: 'Manga Agenda Extension',
-      tabview: '',
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
