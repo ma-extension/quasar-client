@@ -17,7 +17,7 @@
     </q-header>
     <ListReader
       @clickReader="(e) => clickReader(e)"
-      @transition="updatePanels"
+      @panelChange="(e) => updateTitle(e)"
       />
   </q-page>
 </template>
@@ -37,7 +37,7 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      maintitle: 'Manga Agenda Extension',
+      maintitle: '',
       parentPanel: '',
       panel: 'readers',
       parent: {},
@@ -46,33 +46,38 @@ export default {
   },
   computed: {
     title () {
-      if (this.isHomePanel()) {
-        return this.maintitle
+      if (this.maintitle === '') {
+        return 'Manga Agenda Extension'
       }
-      return this.parent.title
+      return this.maintitle
     }
   },
   mounted () {
     this.mae_panels = document.querySelector('#mae_panels')
   },
   methods: {
+    updateTitle (value) {
+      console.log('mudando para o painel:', value.title)
+      this.maintitle = value.title
+    },
     updatePanels (value) {
       this.panel = value.new_panel
       this.parentPanel = value.old_panel
     },
     clickReader (element) {
       // this.parentPanel = element.parentPanel
-      this.panel = element.panel
+      // this.panel = element.panel
       this.parent = element
     },
     backPanel () {
       this.mae_panels = document.querySelector('#mae_panels')
       // this.panel = this.parentPanel
-      // console.dir(this.mae_panels)
+      console.dir(this.mae_panels)
       this.mae_panels.__vue__.previous()
     },
     isHomePanel () {
-      return (this.panel === 'readers') ? true : false
+      console.log(this.panel)
+      return (this.maintitle === '') ? true : false
     }
   }
 }
