@@ -36,6 +36,21 @@ export function get_last_readers ({commit, dispatch}) {
   })
 }
 
+export function delete_chapter({commit, dispatch}, to_del) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['historyReaders'], function(items) {
+      items.historyReaders[to_del.reader]
+      .mangas[to_del.manga]
+      .history.splice(to_del.chapter, 1)
+
+      chrome.storage.sync.set({ historyReaders: items.historyReaders }, function () {
+        console.log('Histórico salvo/atualizado com sucesso!')
+      })
+    })
+    dispatch('get_last_readers')
+  })
+}
+
 // export function get_last_readers ({commit, dispatch}) {
 //   return new Promise((resolve, reject) => {
 //       resolve(dev_history_example)
