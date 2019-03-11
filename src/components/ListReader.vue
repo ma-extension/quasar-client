@@ -58,8 +58,8 @@
           </div>
         </div>
         <q-list>
-          <q-item clickable v-for="(cap, c_index) in chapters"
-            :key="c_index"
+          <q-item clickable v-for="cap in chapters"
+            :key="cap.cap"
             class="manga__cap"
             target="_blank"
             :href="cap.url"
@@ -118,8 +118,14 @@ export default {
       }
       this.$store.dispatch('reader/delete_chapter',
         to_del
-      ).then(resp => { 
-        this.getLastReaders()
+      ).then(resp => {
+        // then we update the current chapters list
+        this.$store.dispatch('reader/get_last_readers').then(resp => {
+          this.items = resp
+          this.mangas = this.items[reader_index].mangas
+          this.current_manga = this.items[reader_index].mangas[manga_index]
+          this.chapters = this.current_manga.history
+        })
       })
     },
     emitPanelChange (title) {
@@ -158,11 +164,12 @@ export default {
     this.getLastReaders()
   },
   computed: {
-    chapters () {
-      if (this.sort_chapters) {
-        return [...this.current_chapters].sort((a, b) => {
-          if (a.cap > b.cap) {
-            return -1
+    chapters: {
+      get () {
+        if (this.sort_chapters) {
+          return this.current_chapters.sort((a, b) => {
+            if (a.cap > b.cap) {
+              return -1
           }
           if (a.cap < b.cap) {
             return 1
@@ -170,8 +177,12 @@ export default {
           return 0
         })
       }
-      return [...this.current_chapters].reverse()
+      return this.current_chapters.reverse()
     },
+    set (value) {
+      this.current_chapters = value
+    }
+  },
     readers () {
       return this.items
     }
