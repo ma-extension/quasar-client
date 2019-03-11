@@ -60,29 +60,33 @@
         <q-list>
           <q-item clickable v-for="cap in chapters"
             :key="cap.cap"
-            tag="a"
             class="manga__cap"
-            target="_blank"
-            :href="cap.url"
           >
           <q-item-section left>
-            Cap: {{ cap.cap }}
+            <a
+              target="_blank"
+              :href="cap.url"
+              class="full-width full-height flex text-black"
+              style="text-decoration: none; align-items: center"
+            >
+             Cap: {{ cap.cap }}
+            </a>
           </q-item-section>
-          <q-item-section main></q-item-section>
+          <!-- <q-item-section main></q-item-section>
           <q-item-section right
             class="flex"
             style="align-items: center"
           >
+          </q-item-section> -->
             <q-btn
               round
               flat
-              @click="deleteChapter(cap)"
+              @click.native="deleteChapter(cap)"
             >
               <q-avatar size="24px">
                 <img style="filter: invert(.8)" src="../assets/baseline-delete-24px.svg">
               </q-avatar>
             </q-btn>
-          </q-item-section>
           </q-item>
         </q-list>
       </q-tab-panel>
@@ -201,7 +205,7 @@ export default {
   text-transform: capitalize;
   font-size: 12px;
   font-weight: normal;
-  /* color: white; */
+  color: black;
   /* filter: invert(100); */
   transition: .5s ease;
 }
