@@ -60,6 +60,7 @@
         <q-list>
           <q-item clickable v-for="cap in chapters"
             :key="cap.cap"
+            tag="a"
             class="manga__cap"
             target="_blank"
             :href="cap.url"
