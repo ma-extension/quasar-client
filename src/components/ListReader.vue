@@ -75,6 +75,7 @@
             <q-btn
               round
               flat
+              @click="deleteChapter(cap)"
             >
               <q-avatar size="24px">
                 <img style="filter: invert(.8)" src="../assets/baseline-delete-24px.svg">
@@ -106,6 +107,21 @@ export default {
     }
   },
   methods: {
+    deleteChapter (chapter) {
+      const reader_index = this.items.indexOf(this.current_reader)
+      const manga_index = this.items[reader_index].mangas.indexOf(this.current_manga)
+      const chapter_index = this.items[reader_index].mangas[manga_index].history.indexOf(chapter)
+      const to_del = {
+        reader: reader_index,
+        manga: manga_index,
+        chapter: chapter_index
+      }
+      this.$store.dispatch('reader/delete_chapter',
+        to_del
+      ).then(resp => { 
+        this.getLastReaders()
+      })
+    },
     emitPanelChange (title) {
       this.$emit('panelChange', {title: this.currentTitle()})
     },
@@ -131,13 +147,15 @@ export default {
         title = this.current_manga.name
       }
       return title
+    },
+    getLastReaders () {
+      this.$store.dispatch('reader/get_last_readers').then(resp => {
+        this.items = resp
+      })
     }
-
   },
   mounted () {
-    this.$store.dispatch('reader/get_last_readers').then(resp => {
-      this.items = resp
-    })
+    this.getLastReaders()
   },
   computed: {
     chapters () {
