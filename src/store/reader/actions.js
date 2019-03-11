@@ -44,10 +44,9 @@ export function delete_chapter({commit, dispatch}, to_del) {
       .history.splice(to_del.chapter, 1)
 
       chrome.storage.sync.set({ historyReaders: items.historyReaders }, function () {
-        console.log('Histórico salvo/atualizado com sucesso!')
+        resolve('Histórico salvo/atualizado com sucesso!')
       })
     })
-    dispatch('get_last_readers')
   })
 }
 
