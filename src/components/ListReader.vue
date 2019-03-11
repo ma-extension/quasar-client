@@ -152,7 +152,7 @@ export default {
           return 0
         })
       }
-      return [...this.current_chapters]
+      return [...this.current_chapters].reverse()
     },
     readers () {
       return this.items
