@@ -107,9 +107,11 @@ function addHistoryReadersInlocalStorage () {
                         {
                             cap: manga_infos.cap,
                             page: manga_infos.page,
-                            url: location.href
+                            url: location.href,
+                            date_read: Date()
                         }
-                    ]
+                    ],
+                    date_read: Date()
                 }
             ]
         }
@@ -130,7 +132,7 @@ function addHistoryReadersInlocalStorage () {
                     if the reader is not in storage, add them using the prototype history object,
                     if is, just update the last page read.     
                     */
-                   isReaderFound = true
+                    isReaderFound = true
                     console.log('ATUALIZANDO HISTORICO')
                     history_readers[index] = updateReaderHistory(history_readers[index], manga_history[0].mangas[0])
                 }
