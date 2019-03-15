@@ -16,8 +16,14 @@
       </q-toolbar>
     </q-header>
     <ListReader
+      v-if="isPageReader()"
       @panelChange="(e) => updateTitle(e)"
       />
+    <div
+      v-else
+    >
+      <p>Esta pagina nao é um leitor</p>
+    </div>
   </q-page>
 </template>
 
@@ -52,6 +58,9 @@ export default {
     this.mae_panels = document.querySelector('#mae_panels')
   },
   methods: {
+    isPageReader () {
+      return true
+    },
     updateTitle (value) {
       this.maintitle = value.title
     },
