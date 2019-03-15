@@ -5,6 +5,19 @@
     </q-page-container>
     <q-footer class="bg-black">
       <q-toolbar>
+        <q-btn
+        push
+        color="cyan"
+        no-caps
+        type="a"
+        target="_blank"
+        href="#/profile"
+      >
+        <q-icon
+          name="book"
+        />
+        Profile
+      </q-btn>
         <q-toolbar-title></q-toolbar-title>
         <q-btn
           icon="favorite"
