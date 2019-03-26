@@ -15,7 +15,7 @@ const READERS = [
     {
         name: 'onepiece-ex',
         hostname: 'onepieceex.net',
-        regex_expression: /https:\/\/onepiece-ex\.com\.br\/mangas\/leitor\/(?<cap>[a-zA-Z0-9\-\_\%]*)\/#(?<page>[0-9]*)/,
+        regex_expression: /https:\/\/onepieceex\.net\/mangas\/leitor\/(?<cap>[a-zA-Z0-9\-\_\%]*)\/#(?<page>[0-9]*)/,
         exclusive_for: 'One Piece',
         icon: 'https://onepieceex.net/favicon/favicon-32x32.png'
 
